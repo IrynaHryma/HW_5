@@ -42,7 +42,7 @@ def change (*args):
     new_phone = Phone (args[2])
     rec:Record = address_book.get(str(name))
     if rec:
-        return rec.add_phone(old_phone,new_phone)
+        return rec.edit_phone(old_phone,new_phone)
     
     return f"No contact {name} in addressbook."
     
@@ -57,10 +57,10 @@ def phone(*args):
 @handle_errors
 def show_all(*args):
     if address_book:
-        all_contacts = ""
-        for name, phone in address_book.items():
-            all_contacts+=f"{name}:{phone} "
-        return all_contacts
+        # all_contacts = ""
+        # for name, phone in address_book.items():
+        #     all_contacts+=f"{name}:{phone} "
+        return address_book
     else:
         return "Contact not found"   
 
@@ -70,10 +70,10 @@ def no_command(*args):
     return "Unknown command"
 
 
-COMMANDS = {add:("add","+"),
-            change:"change", 
-            phone:"phone",
-            show_all:"show all",
+COMMANDS = {add: ("add", "+"),
+            change: ("change", ), 
+            phone: ("phone", ),
+            show_all: ("show all", ),
             greeting:("hello","hi"),
             exit_command:("good bye","exit","end")
             }
@@ -85,9 +85,8 @@ def parser(text: str) -> tuple[callable, tuple[str] | None]:
           for kwd in kwds:
             if text.lower().startswith(kwd):
                data = text[len(kwd):].strip().split()
-               return cmd,data
-
-      return no_command,[]
+               return cmd, data
+      return no_command, []
 
 
 def main():
