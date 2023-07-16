@@ -33,10 +33,6 @@ class Record:
         return f"{phone} is in contact {self.name}."
     
     
-    # def remove_phone(self, phone):
-    #     self.phones.remove(phone)
-
-    
     def edit_phone(self, old_phone, new_phone):
         for index, phone in enumerate (self.phones):
             if old_phone.value == phone.value:
@@ -67,7 +63,6 @@ if __name__ == "__main__":
     name.value = "Bill Gates"
     record = Record(name)
     phone1=Phone("+2617627334")
-    phone1.value = "+2617627334"
     print (name.value)
     print(phone1.value)
     ab.add_record(record)

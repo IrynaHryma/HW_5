@@ -42,7 +42,7 @@ def change (*args):
     new_phone = Phone (args[2])
     rec:Record = address_book.get(str(name))
     if rec:
-        return rec.add_phone(old_phone,new_phone)
+        return rec.edit_phone(old_phone,new_phone)
     
     return f"No contact {name} in addressbook."
     
@@ -60,7 +60,7 @@ def show_all(*args):
         all_contacts = ""
         for name, phone in address_book.items():
             all_contacts+=f"{name}:{phone} "
-        return all_contacts
+        return address_book
     else:
         return "Contact not found"   
 
@@ -70,34 +70,30 @@ def no_command(*args):
     return "Unknown command"
 
 
-COMMANDS = {add:("add","+"),
-            change:"change", 
-            phone:"phone",
-            show_all:"show all",
+COMMANDS = {add:("add",),
+            change:("change",), 
+            phone:("phone",),
+            show_all:("show all",),
             greeting:("hello","hi"),
-            exit_command:("good bye","exit","end")
+            exit_command:("good bye","exit")
             }
 
 
 def parser(text: str) -> tuple[callable, tuple[str] | None]:
-   
-      for cmd,kwds in COMMANDS.items():
-          for kwd in kwds:
+    for cmd, kwds in COMMANDS.items():
+        for kwd in kwds:
             if text.lower().startswith(kwd):
-               data = text[len(kwd):].strip().split()
-               return cmd,data
+                data = text[len(kwd):].strip().split()
+                return cmd, data
 
-      return no_command,[]
+    return no_command, []
 
 
 def main():
     while True:
         user_input = input(">>>>")
-        
         command, data = parser(user_input)
-        
         result = command(*data)
-        
         print(result)
     
         if command == exit_command:
